@@ -1,13 +1,9 @@
-# Front-End Development Starter Code
+# Front-End Development CA2 Example Code
 
-This template provides a minimal setup to get started on CA2. It has Vite + React + ReactRouter + Tailwind CSS + ShadCN installed.
+This is the in-class CA2 example code. 
+Apply what you learn while developing this to your own CA2 Medical Clinic Application.
 
 ## Instructions:
 
-1. Make a copy of this repo
-2. Give the copy the name of your application e.g. `ca2-festivals-example`
-3. Change the `name` property in `package.json` to your application name
-4. `npm install`
-5. `npx shadcn@latest init` // you only need to do this once
-    - Select a base color
-6. `npm run dev`
+1. `npm install`
+2. `npm run dev`
