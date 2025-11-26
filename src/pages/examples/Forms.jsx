@@ -3,7 +3,7 @@ import MoreFormExamples from "@/components/examples/MoreFormExamples";
 
 export default function Forms() {
   return (
-    <div className="flex flex-col gap-1 mx-auto max-w-xl">
+    <div className="flex flex-col gap-1 mx-auto max-w-xl mt-4 mb-16">
       <h1 className="text-2xl font-bold">Forms</h1>
       <p className="mb-4 text-sm text-muted-foreground ">
         This page demonstrates various form examples. See the code for more
@@ -18,7 +18,7 @@ export default function Forms() {
         .
       </p>
 
-      <h2 className="text-xl font-semibold mb-2">Login Form Example</h2>
+      <h2 className="text-xl font-semibold mb-2 mt-6">Login Form Example</h2>
       <ExampleLoginForm />
       <p className="mt-4 text-sm text-muted-foreground ">
         The above example demonstrates the use of{" "}
@@ -44,7 +44,7 @@ export default function Forms() {
         building forms with comprehensive validation requirements.
       </p>
 
-      <h2 className="text-xl font-semibold mb-2 mt-8">
+      <h2 className="text-xl font-semibold mb-2 mt-16">
         Calendar, Enums, and dropdown data from an API
       </h2>
       <p className="mt-4 text-sm text-muted-foreground ">
