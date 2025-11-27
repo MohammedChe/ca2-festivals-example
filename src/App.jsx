@@ -8,6 +8,7 @@ import { SiteHeader } from "@/components/site-header";
 
 import Navbar from "@/components/Navbar";
 import Home from "@/pages/Home";
+import ProtectedRoute from "@/pages/ProtectedRoute";
 
 import FestivalsIndex from "@/pages/festivals/Index";
 import FestivalsShow from "@/pages/festivals/Show";
@@ -37,17 +38,22 @@ export default function App() {
                   {/* Main content */}
                   <Routes>
                     <Route path="/" element={<Home />} />
-
                     <Route path="/festivals" element={<FestivalsIndex />} />
-                    <Route path="/festivals/:id" element={<FestivalsShow />} />
-                    <Route
-                      path="/festivals/:id/edit"
-                      element={<FestivalsEdit />}
-                    />
-                    <Route
-                      path="/festivals/create"
-                      element={<FestivalsCreate />}
-                    />
+
+                    <Route path="/" element={<ProtectedRoute />}>
+                      <Route
+                        path="/festivals/:id"
+                        element={<FestivalsShow />}
+                      />
+                      <Route
+                        path="/festivals/:id/edit"
+                        element={<FestivalsEdit />}
+                      />
+                      <Route
+                        path="/festivals/create"
+                        element={<FestivalsCreate />}
+                      />
+                    </Route>
 
                     <Route path="/forms" element={<FormExamples />} />
                   </Routes>

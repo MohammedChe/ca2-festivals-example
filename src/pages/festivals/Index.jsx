@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Eye, Pencil } from "lucide-react";
 import DeleteBtn from "@/components/DeleteBtn";
+import { useAuth } from "@/hooks/useAuth";
 
 import {
   Table,
@@ -30,7 +31,7 @@ export default function Index() {
   const [festivals, setFestivals] = useState([]);
 
   const navigate = useNavigate();
-  
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetchFestivals = async () => {
@@ -53,61 +54,67 @@ export default function Index() {
 
   const onDeleteCallback = (id) => {
     toast.success("Festival deleted successfully");
-    setFestivals(festivals.filter(festival => festival.id !== id));
-  
+    setFestivals(festivals.filter((festival) => festival.id !== id));
   };
 
   return (
     <>
-    
-      <Button
-        asChild
-        variant='outline'
-        className='mb-4 mr-auto block'
-      ><Link size='sm' to={`/festivals/create`}>Create New Festival</Link>
-      </Button>
+      {token && (
+        <Button asChild variant="outline" className="mb-4 mr-auto block">
+          <Link size="sm" to={`/festivals/create`}>
+            Create New Festival
+          </Link>
+        </Button>
+      )}
 
-
-    <Table>
-      <TableCaption>A list of your recent invoices.</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Title</TableHead>
-          <TableHead>City</TableHead>
-          <TableHead>Start Date</TableHead>
-          <TableHead>End Date</TableHead>
-          <TableHead></TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {festivals.map((festival) => (
-          <TableRow key={festival.id}>
-            <TableCell>{festival.title}</TableCell>
-            <TableCell>{festival.city}</TableCell>
-            <TableCell>{festival.start_date}</TableCell>
-            <TableCell>{festival.end_date}</TableCell>
-            <TableCell>
-              <div className="flex gap-2">
-              <Button 
-                className="cursor-pointer hover:border-blue-500"
-                variant="outline"
-                size="icon"
-                onClick={() => navigate(`/festivals/${festival.id}`)}
-              ><Eye /></Button>
-              <Button 
-                className="cursor-pointer hover:border-blue-500"
-                variant="outline"
-                size="icon"
-                onClick={() => navigate(`/festivals/${festival.id}/edit`)}
-              ><Pencil /></Button>
-              <DeleteBtn onDeleteCallback={onDeleteCallback} resource="festivals" id={festival.id} />
-              </div>
-
-            </TableCell>
+      <Table>
+        <TableCaption>A list of your recent invoices.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Title</TableHead>
+            <TableHead>City</TableHead>
+            <TableHead>Start Date</TableHead>
+            <TableHead>End Date</TableHead>
+            { token && <TableHead></TableHead>}
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {festivals.map((festival) => (
+            <TableRow key={festival.id}>
+              <TableCell>{festival.title}</TableCell>
+              <TableCell>{festival.city}</TableCell>
+              <TableCell>{festival.start_date}</TableCell>
+              <TableCell>{festival.end_date}</TableCell>
+
+              { token && <TableCell>
+                <div className="flex gap-2">
+                  <Button
+                    className="cursor-pointer hover:border-blue-500"
+                    variant="outline"
+                    size="icon"
+                    onClick={() => navigate(`/festivals/${festival.id}`)}
+                  >
+                    <Eye />
+                  </Button>
+                  <Button
+                    className="cursor-pointer hover:border-blue-500"
+                    variant="outline"
+                    size="icon"
+                    onClick={() => navigate(`/festivals/${festival.id}/edit`)}
+                  >
+                    <Pencil />
+                  </Button>
+                  <DeleteBtn
+                    onDeleteCallback={onDeleteCallback}
+                    resource="festivals"
+                    id={festival.id}
+                  />
+                </div>
+              </TableCell>}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </>
   );
 }

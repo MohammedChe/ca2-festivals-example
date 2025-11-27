@@ -38,7 +38,9 @@ export const AuthProvider = ({ children }) => {
             setToken(response.data.token);
 
         } catch (err) {
-            console.log(err.response.data);
+            console.log(err.response);
+
+            return err.response.data;
         }
     };
 
