@@ -16,6 +16,8 @@ import FestivalsCreate from "@/pages/festivals/Create";
 import FestivalsEdit from "@/pages/festivals/Edit";
 
 import FormExamples from "@/pages/examples/Forms";
+import DoctorsShow from "@/pages/examples/DoctorsShow";
+import DoctorsIndex from "@/pages/examples/DoctorsIndex";
 
 export default function App() {
   return (
@@ -56,6 +58,15 @@ export default function App() {
                     </Route>
 
                     <Route path="/forms" element={<FormExamples />} />
+                    <Route
+                        path="/doctors/"
+                        element={<DoctorsIndex />}
+                      />
+                    <Route
+                        path="/doctors/:id"
+                        element={<DoctorsShow />}
+                      />
+                      
                   </Routes>
                 </div>
               </div>

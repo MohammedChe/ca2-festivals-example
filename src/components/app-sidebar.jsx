@@ -7,6 +7,7 @@ import {
   IconInnerShadowTop,
   IconMusic,
   IconListCheck,
+  IconPillFilled
 } from "@tabler/icons-react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
@@ -65,6 +66,11 @@ const data = {
       url: "/forms",
       icon: IconListCheck,
     },
+    {
+      name: "Doctors (view and delete example)",
+      url: "/doctors",
+      icon: IconPillFilled,
+    }
   ],
 };
 
