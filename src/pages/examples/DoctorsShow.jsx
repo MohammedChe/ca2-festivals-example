@@ -51,7 +51,11 @@ export default function Show() {
     try {
       let response = await axios.request(options);
       console.log(response.data);
-      setPrescriptions(response.data);
+
+      console.log(typeof response.data[0].doctor_id)
+      console.log(typeof id)
+
+      setPrescriptions(response.data.filter(prescription => prescription.doctor_id == id));
     } catch (err) {
       console.log(err);
     }
@@ -69,7 +73,7 @@ export default function Show() {
     try {
       let response = await axios.request(options);
       console.log(response.data);
-      setAppointments(response.data);
+      setAppointments(response.data.filter(appointment => appointment.doctor_id == id));
     } catch (err) {
       console.log(err);
     }
@@ -95,41 +99,43 @@ export default function Show() {
     try {
       // In this first if block, we check if the doctor has any appointments or prescriptions
       // If so, we need to delete them first
-      // if (appointments.length > 0) {
-      //   // Map will return our array of promises, which we can await
+      if (appointments.length > 0) {
+        // Map will return our array of promises, which we can await
 
-      //   // better than using forEach, because then we'd need to create an array beforehand and push to it
-      //   const deleteAppointmentJobs = appointments.map((appointment) => {
-      //     return axios.delete(
-      //       `https://ca2-med-api.vercel.app/appointments/${appointment.id}`,
-      //       {
-      //         headers: {
-      //           Authorization: `Bearer ${token}`,
-      //         },
-      //       }
-      //     );
-      //   });
+        // better than using forEach, because then we'd need to create an array beforehand and push to it
+        const deleteAppointmentJobs = appointments.map((appointment) => {
+          return axios.delete(
+            `https://ca2-med-api.vercel.app/appointments/${appointment.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+        });
 
-      //   // WAIT for all the promises to resolve before continuing
-      //   await Promise.all(deleteAppointmentJobs);
-      // }
+        console.log(deleteAppointmentJobs);
 
-      // if (prescriptions.length > 0) {
-      //   // Once again, we iterate over the array of prescriptions, adding each delete request to an array
-      //   // We then wait for all of them to complete before continuing
-      //   const deletePrescriptionJobs = prescriptions.map((prescription) => {
-      //     return axios.delete(
-      //       `https://ca2-med-api.vercel.app/prescriptions/${prescription.id}`,
-      //       {
-      //         headers: {
-      //           Authorization: `Bearer ${token}`,
-      //         },
-      //       }
-      //     );
-      //   });
+        // WAIT for all the promises to resolve before continuing
+        await Promise.all(deleteAppointmentJobs);
+      }
 
-      //   await Promise.all(deletePrescriptionJobs);
-      // }
+      if (prescriptions.length > 0) {
+        // Once again, we iterate over the array of prescriptions, adding each delete request to an array
+        // We then wait for all of them to complete before continuing
+        const deletePrescriptionJobs = prescriptions.map((prescription) => {
+          return axios.delete(
+            `https://ca2-med-api.vercel.app/prescriptions/${prescription.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+        });
+
+        await Promise.all(deletePrescriptionJobs);
+      }
 
       // With our appointments and prescriptions deleted, we can now delete the doctor
       await axios.delete(`https://ca2-med-api.vercel.app/doctors/${id}`, {
@@ -141,9 +147,9 @@ export default function Show() {
       console.log("Doctor deleted");
 
       // Clear out all our state values
-      // setAppointments([]);
-      // setPrescriptions([]);
-      // setDoctor(null);
+      setAppointments([]);
+      setPrescriptions([]);
+      setDoctor(null);
     } catch (e) {
       console.error(e);
     }
@@ -190,7 +196,7 @@ export default function Show() {
               <li key={appointment.id}>
                 {/* convert unix timestamp to local date string */}
 
-                <span className="font-bold">Date: </span>{unixToLocalDateString(appointment.appointment_date)} - <span className="font-bold">Patient: </span>{appointment.patient_id} <span className="text-gray-500">// should get the patient name here</span>
+                <span className="font-bold">Date: </span>{unixToLocalDateString(appointment.appointment_date)} - <span className="font-bold">Patient: </span>{appointment.patient_id} <span className="text-gray-400">// should get the patient name here</span>
               </li>
             ))}
           </ul>
