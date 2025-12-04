@@ -85,7 +85,7 @@ export default function Show() {
   }, []);
 
   // We make this function asynchronous, because the tasks it performs might take some time
-  const deleteDoctor = async (id) => {
+  const deleteDoctor = async () => {
     // User may try to run this function after a delete has happened, in which case we don't want to do anything
     if (!doctor) {
       return;
@@ -95,41 +95,41 @@ export default function Show() {
     try {
       // In this first if block, we check if the doctor has any appointments or prescriptions
       // If so, we need to delete them first
-      if (appointments.length > 0) {
-        // Map will return our array of promises, which we can await
+      // if (appointments.length > 0) {
+      //   // Map will return our array of promises, which we can await
 
-        // better than using forEach, because then we'd need to create an array beforehand and push to it
-        const deleteAppointmentJobs = appointments.map((appointment) => {
-          return axios.delete(
-            `https://ca2-med-api.vercel.app/appointments/${appointment.id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-        });
+      //   // better than using forEach, because then we'd need to create an array beforehand and push to it
+      //   const deleteAppointmentJobs = appointments.map((appointment) => {
+      //     return axios.delete(
+      //       `https://ca2-med-api.vercel.app/appointments/${appointment.id}`,
+      //       {
+      //         headers: {
+      //           Authorization: `Bearer ${token}`,
+      //         },
+      //       }
+      //     );
+      //   });
 
-        // WAIT for all the promises to resolve before continuing
-        await Promise.all(deleteAppointmentJobs);
-      }
+      //   // WAIT for all the promises to resolve before continuing
+      //   await Promise.all(deleteAppointmentJobs);
+      // }
 
-      if (doctorPrescriptions.length > 0) {
-        // Once again, we iterate over the array of prescriptions, adding each delete request to an array
-        // We then wait for all of them to complete before continuing
-        const deletePrescriptionJobs = prescriptions.map((prescription) => {
-          return axios.delete(
-            `https://ca2-med-api.vercel.app/prescriptions/${prescription.id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-        });
+      // if (prescriptions.length > 0) {
+      //   // Once again, we iterate over the array of prescriptions, adding each delete request to an array
+      //   // We then wait for all of them to complete before continuing
+      //   const deletePrescriptionJobs = prescriptions.map((prescription) => {
+      //     return axios.delete(
+      //       `https://ca2-med-api.vercel.app/prescriptions/${prescription.id}`,
+      //       {
+      //         headers: {
+      //           Authorization: `Bearer ${token}`,
+      //         },
+      //       }
+      //     );
+      //   });
 
-        await Promise.all(deletePrescriptionJobs);
-      }
+      //   await Promise.all(deletePrescriptionJobs);
+      // }
 
       // With our appointments and prescriptions deleted, we can now delete the doctor
       await axios.delete(`https://ca2-med-api.vercel.app/doctors/${id}`, {
@@ -141,9 +141,9 @@ export default function Show() {
       console.log("Doctor deleted");
 
       // Clear out all our state values
-      setAppointments([]);
-      setPrescriptions([]);
-      setDoctor(null);
+      // setAppointments([]);
+      // setPrescriptions([]);
+      // setDoctor(null);
     } catch (e) {
       console.error(e);
     }
